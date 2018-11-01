@@ -1,29 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * File:   Activity.cpp
- * Author: yuliya
- *
- * Created on 20 ottobre 2018, 9.31
- */
-
+//
+// Created by Heidi Garcia Canizares on 01/11/2018.
+//
 
 #include "Activity.hpp"
-#include "Person.hpp"
 
 Activity :: Activity (string t, unsigned int p, ActivityList& activity_list) : activityList (activity_list){
     title=t;
     position=p;
+    subActivityList= new SubActivityList (*this);
 }
 
-Activity  :: ~Activity(){
+Activity :: ~Activity(){
 }
-    
-string Activity :: getTitle(){
+
+string Activity :: getTitle() const {
     return title;
 }
 
@@ -43,22 +33,22 @@ void Activity :: setDeadline(Date& _deadline){
     deadline=_deadline;
 }
 
-Date Activity :: getDate(){
+Date& Activity :: getDate(){
     return deadline;
 }
 
-void Activity :: addPerson(Person* person){
-    for (Person* p : people){
-        if(*p == *person){
+void Activity :: addPerson(struct Person& person){
+    for (struct Person& p : people){
+        if(p == person){
             return;
         }
     }
     people.push_back(person);
 }
 
-bool Activity :: removePerson(Person* person){
-    for (Person* p : people){
-        if(*p == *person){
+bool Activity :: removePerson(struct Person& person){
+    for (struct Person& p : people){
+        if(p == person){
             people.remove(p);
             return true;
         }
@@ -66,12 +56,19 @@ bool Activity :: removePerson(Person* person){
     return false;
 }
 
-ActivityList* Activity :: getMainActivityList(){
-    return &activityList;
+const ActivityList& Activity :: getMainActivityList(){
+    return activityList;
 }
 
-list <Person*> Activity :: getPersonContainer(){
+list <struct Person> Activity :: getPersonContainer(){
     return people;
 }
 
-//list <ActivityList*> Activity :: getSubActivityList(){}
+bool Activity ::operator == (const Activity &_other) const {
+    return title == _other.getTitle();
+}
+
+SubActivityList& Activity :: getSubActivityList(){
+    return *subActivityList;
+}
+

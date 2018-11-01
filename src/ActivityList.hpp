@@ -1,43 +1,38 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//
+// Created by Heidi Garcia Canizares on 01/11/2018.
+//
 
-/* 
- * File:   ActivityList.hpp
- * Author: yuliya
- *
- * Created on 20 ottobre 2018, 10.01
- */
+#ifndef DIARY_ACTIVITYLIST_HPP
+#define DIARY_ACTIVITYLIST_HPP
 
-#ifndef ACTIVITYLIST_H
-#define ACTIVITYLIST_H
+#include <list>
+#include <iostream>
 #include "Activity.hpp"
-#include<list>
 
 using namespace std;
 
-class Showcase;
+class Board;
 
-class ActivityList{
+class ActivityList {
 public:
-    ActivityList(string name, unsigned int position, Showcase& showcase);
+    ActivityList(string name, unsigned int position, Board& board);
     ~ActivityList();
     unsigned int getPosition();
-    string getName();
-    Activity* createActivity(string title);
-    bool removeActivity(Activity* activity);
-    Activity* getActivity(string name);
-    list <Activity*> getActivityContainer();
-    Showcase* getMainShowcase();
+    string getName() const;
+    void createActivity(string title);
+    bool removeActivity(Activity& activity);
+    Activity& getActivity(string name);
+    list <Activity> getActivityContainer();
+    Board& getMainBoard();
+    bool operator == (const ActivityList& other) const;
 private:
-    unsigned int position;
-    string name;
-    list <Activity*> activities;
+    unsigned int _position;
+    string _name;
+    list <Activity> activities;
     unsigned int nextActivityPosition;
-    Showcase& _showcase;
+    Board& _board;
+
 };
 
-#endif /* ACTIVITYLIST_H */
 
+#endif //DIARY_ACTIVITYLIST_HPP

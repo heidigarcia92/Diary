@@ -1,42 +1,30 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//
+// Created by Heidi Garcia Canizares on 01/11/2018.
+//
 
-/*
- * File:   ActivityList.cpp
- * Author: yuliya
- *
- * Created on 20 ottobre 2018, 9.31
- */
-
+#include "Board.hpp"
 #include "ActivityList.hpp"
-#include "Showcase.hpp"
 
-ActivityList :: ActivityList (string n, unsigned int p, Showcase& showcase) : _showcase (showcase) {
-    name=n;
-    position=p;
+ActivityList :: ActivityList (string n, unsigned int p, Board& board) : _board (board) {
+    _name=n;
+    _position=p;
     nextActivityPosition = 0;
 }
 
 ActivityList :: ~ActivityList (){
-    for (Activity* a : activities){
-        delete a;
-    }
 }
 
 unsigned int ActivityList :: getPosition(){
-    return position;
+    return _position;
 }
 
-string ActivityList :: getName(){
-    return name;
+string ActivityList :: getName() const {
+    return _name;
 }
 
-bool ActivityList :: removeActivity (Activity* activity){
-    for (Activity* a : activities){
-        if (a -> getTitle() == activity -> getTitle()){
+bool ActivityList :: removeActivity (Activity& activity){
+    for (Activity& a : activities){
+        if (a.getTitle() == activity.getTitle()){
             activities.remove(a);
             return true;
         }
@@ -44,30 +32,32 @@ bool ActivityList :: removeActivity (Activity* activity){
     return false;
 }
 
-Activity* ActivityList :: getActivity(string name){
-     for(Activity* a : activities){
-         if (a->getTitle() == name){
+Activity& ActivityList :: getActivity(string name){
+    for(Activity& a : activities){
+        if (a.getTitle() == name){
             return a;
-         }
-     }
-     return NULL;
-}
-
-Activity* ActivityList :: createActivity(string title) {
-    for(Activity* a : activities){
-        if (a->getTitle()==title){
-            return NULL;
         }
     }
-    Activity* a = new Activity(title, nextActivityPosition++, *this);
-    activities.push_back(a);
-    return a;
 }
 
-list <Activity*> ActivityList :: getActivityContainer(){
+void ActivityList :: createActivity(string title) {
+    for(Activity& a : activities){
+        if (a.getTitle()==title){
+            return;
+        }
+    }
+    Activity a(title, nextActivityPosition++, *this);
+    activities.push_back(a);
+}
+
+list <Activity> ActivityList :: getActivityContainer(){
     return activities;
 }
 
-Showcase* ActivityList :: getMainShowcase(){
-    return &_showcase;
+Board& ActivityList :: getMainBoard(){
+    return _board;
+}
+
+bool ActivityList :: operator==(const ActivityList& other) const {
+    return _name == other.getName();
 }

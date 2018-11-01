@@ -1,39 +1,32 @@
 //
-//  Date.hpp
-//  Diary
-//
-//  Created by Heidi Garcia Canizares on 16/10/18.
-//  Copyright © 2018 Heidi Garcia Canizares. All rights reserved.
+// Created by Heidi Garcia Canizares on 01/11/2018.
 //
 
-#ifndef DATE_H
-#define DATE_H
+#ifndef DIARY_DATE_HPP
+#define DIARY_DATE_HPP
 
+#include "DateException.hpp"
+#include <ctime>
 #include <iostream>
 
 using namespace std;
 
-class Date{
+class Date {
 public:
     Date();
     Date(const Date& date_obj);
     Date(int day, int month, int year);
-    Date(const string& date);
-
+    Date(const string& iso_string);
+    ~Date();
     string getDate() const;
     int getDay() const;
     int getMonth() const;
     int getYear() const;
-    bool operator < (const Date& date_obj);
-    bool operator > (const Date& date_obj);
-    bool operator == (const Date& date_obj);
-    
 private:
-    int date[3];
-    void setDate(int day, int month, int year);
-    
+    tm date;
+    void clear();
+    void check_date(int day, int month, int year);
+    bool is_leap(int year);
 };
 
-
-#endif /* DATE_H */
-
+#endif //DIARY_DATE_HPP
