@@ -17,9 +17,14 @@ void NewBoardFrame::OnButton_addboardButtonClicked(wxCommandEvent& event) {
     string name = text_boardName->GetValue().ToStdString(); //ritorna la stringa classica del C++
     admin->addBoard(name);
     Board& b = admin->getBoard(name);
-    for (int i=1; i<4; i++){
-        b.createActivityList("To do " + to_string(i));
+    string s[3];
+    s[0] = "To do";
+    s[1] = "Doing";
+    s[2] = "Done";
+    for (int i=0; i<3; i++){
+        b.createActivityList(s[i]);
     }
+    
     dynamic_cast<DiaryHomeFrame*> (GetParent())->refreshList(); 
     Close();
 }
